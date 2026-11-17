@@ -67,6 +67,7 @@ const TB = {
   check("説明は110字以内・ヒントは60字以内（答えの決め手は110字）・問いは70字以内（やさしい日本語。一文を短く）", !longWhy.length && !longLook.length && !longOpt.length, longWhy.concat(longLook, longOpt.slice(0, 3)).join(","));
   const okSrc = Object.values(G.SRC).every(([n, u]) => /^https:\/\/(www\.pref\.osaka\.lg\.jp\/documents\/25642\/|www\.gmnh\.pref\.gunma\.jp\/|www\.osaka-c\.ed\.jp\/|okimu\.jp\/)/.test(u) && n);
   check("出典は大阪府教育委員会、群馬県立自然史博物館、大阪府教育センター、沖縄県立博物館・美術館だけ", okSrc);
+  check("今日のまめ知識に岩石（石灰岩・チャート・塩酸）を出さない（岩石なかま分けと重ねない。CodeRabbit 2026-11-17）", !/石灰岩|チャート|塩酸/.test(readFileSync(path.join(root, "index.html"), "utf8").split("const TIPS")[1].split("];")[0]));
   check("問いに示相化石の例（サンゴ）を答えとして出さない・答えは示準化石5つだけ", !G.KINDS.some((k) => { for (let i = 0; i < 100; i++) { const P = G.make(`${k.id}|nz${i}`); if ([P.ans, ...P.opts].some((o) => !G.CLASSES.includes(o) || /サンゴ|シジミ/.test(o))) return true; } return false; }));
 }
 {
